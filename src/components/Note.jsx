@@ -1,7 +1,6 @@
 import React from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteNote } from "./firebase_actions";
-import Box from "@material-ui/core/Box";
 import { Grid, CardHeader } from "@material-ui/core/"
 
 function Note(props) {

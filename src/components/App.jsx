@@ -5,8 +5,6 @@ import Note from "./Note";
 import CreateArea from "./CreateArea";
 import { createNote, getNotes, db } from "./firebase_actions";
 import Firebase from "firebase";
-import BottomAppBar from "./custom_components/bottom_app_bar";
-import SingleCard from "./custom_components/card";
 import { Grid, CardHeader } from "@material-ui/core/"
 
 function App() {
