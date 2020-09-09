@@ -5,16 +5,17 @@
 }
 html {
   font-family: "Montserrat", sans-serif;
-  
 }
 body {
-  background: #eee;
-  padding: 0 16px;
+  /* padding: 0 16px; */
+  background-color: #008f94;
+  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 }
 
 header {
-  background-color: #f5ba13;
-  margin: auto -16px;
+  /* background-color:  #008f94;; */
+  margin: auto ;
   padding: 16px 32px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
@@ -64,11 +65,10 @@ footer p {
   border: none;
   width: 36px;
   height: 36px;
-  background:none;
+  background: none;
   cursor: pointer;
   outline: none;
 }
-
 
 form.create-note {
   position: relative;
@@ -103,3 +103,4 @@ form.create-note button {
   cursor: pointer;
   outline: none;
 }
+

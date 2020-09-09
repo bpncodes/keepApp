@@ -1,52 +1,50 @@
 import React, { useState } from "react";
-import AddIcon from '@material-ui/icons/Add';
-import Zoom from '@material-ui/core/Zoom';
-import Fab from '@material-ui/core/Fab';
+import AddIcon from "@material-ui/icons/Add";
+import Zoom from "@material-ui/core/Zoom";
+import Fab from "@material-ui/core/Fab";
+import { createNote, getNotes } from "./firebase_actions";
 
 function CreateArea(props) {
   const [note, setNote] = useState({
     title: "",
-    content: ""
+    content: "",
+    id: "",
   });
 
   const [expand, setExpand] = useState({
     inputShow: false,
     rows: 1,
     addShow: false,
-    showTitle: "none"
-
-  })
+    showTitle: "none",
+  });
 
   function handleChange(event) {
     const { name, value } = event.target;
 
-    setNote(prevNote => {
+    setNote((prevNote) => {
       return {
         ...prevNote,
-        [name]: value
+        [name]: value,
       };
     });
   }
 
   function submitNote(event) {
-    props.onAdd(note);
+    createNote(note.title, note.content); //This is for Firebase data s
     setNote({
       title: "",
-      content: ""
+      content: "",
     });
     event.preventDefault();
   }
 
-  function expandAll(){
-    setExpand(
-      {
-        inputShow: true,
-        rows: 3,
-        addShow: true,
-        showTitle: ""
-    
-      }
-    )
+  function expandAll() {
+    setExpand({
+      inputShow: true,
+      rows: 3,
+      addShow: true,
+      showTitle: "",
+    });
   }
 
   return (
@@ -67,13 +65,16 @@ function CreateArea(props) {
           placeholder="Take a note..."
           rows={expand.rows}
         />
-        <Zoom in={expand.addShow}><Fab onClick={submitNote}><AddIcon /></Fab></Zoom>
+        <Zoom in={expand.addShow}>
+          <Fab onClick={submitNote}>
+            <AddIcon />
+          </Fab>
+        </Zoom>
       </form>
     </div>
   );
 }
 
 export default CreateArea;
-
 
 // You can just set a bool var and use ternary operator to update the rest

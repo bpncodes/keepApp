@@ -1,20 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Note from "./Note";
 import CreateArea from "./CreateArea";
+import { createNote, getNotes, db } from "./firebase_actions";
+import Firebase from "firebase";
+import BottomAppBar from "./custom_components/bottom_app_bar";
+import SingleCard from "./custom_components/card";
+import { Grid, CardHeader } from "@material-ui/core/"
 
 function App() {
-  const [notes, setNotes] = useState([]);
+  let [notes, setNotes] = useState([]);
 
-  function addNote(newNote) {
-    setNotes(prevNotes => {
-      return [...prevNotes, newNote];
+  useEffect(() => {
+    let ref = Firebase.database().ref("notes");
+    console.log(ref);
+    ref.on("value", (snapshot) => {
+      const cloudNotes = snapshot.val();
+      if (cloudNotes == null) {
+        setNotes([]);
+        return;
+      }
+      var newnotes = Object.keys(cloudNotes)
+        .map((i) => cloudNotes[i])
+        .reverse();
+      setNotes(newnotes); //  // Similar to componentDidMount and componentDidUpdate:
     });
-  }
+  }, []);
 
   function deleteNote(id) {
-    setNotes(prevNotes => {
+    setNotes((prevNotes) => {
       return prevNotes.filter((noteItem, index) => {
         return index !== id;
       });
@@ -24,18 +39,22 @@ function App() {
   return (
     <div>
       <Header />
-      <CreateArea onAdd={addNote} />
-      {notes.map((noteItem, index) => {
-        return (
-          <Note
-            key={index}
-            id={index}
-            title={noteItem.title}
-            content={noteItem.content}
-            onDelete={deleteNote}
-          />
-        );
-      })}
+      <CreateArea /> {/* // Migrated delete to cloud */}
+      <Grid container xs="1" md="2"></Grid>
+      <Grid container xs="10" md="8" justify="left">
+        {notes.map((noteItem) => {
+          return (
+            <Note
+              key={noteItem.id}
+              id={noteItem.id}
+              title={noteItem.title}
+              content={noteItem.content}
+              onDelete={deleteNote}
+            />
+          );
+        })}
+      </Grid>
+      <Grid container xs="1" md="2"></Grid>
       <Footer />
     </div>
   );
